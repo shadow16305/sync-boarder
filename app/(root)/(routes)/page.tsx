@@ -1,7 +1,13 @@
 import { Button } from "@/components/ui/button";
+import getCurrentUser from "@/lib/actions/get-current-user";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+  const currentUser = await getCurrentUser();
+
+  if (currentUser) redirect("/boards");
+
   return (
     <main className="h-screen flex flex-col items-center justify-center space-y-4 text-center absolute inset-0 overflow-hidden">
       <h1 className="text-5xl font-bold max-w-2xl leading-tight">

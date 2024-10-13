@@ -6,12 +6,13 @@ import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { LogIn } from "lucide-react";
 import Image from "next/image";
+import { UserButton } from "./user-button";
 
 export const MainNavigation = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="w-screen mx-auto shadow-md py-2 z-50 relative">
+    <nav className="w-screen mx-auto border-b py-2 z-50 relative">
       <div className="flex items-center justify-between w-10/12 mx-auto">
         <div className="flex items-center gap-x-6">
           <span className="text-2xl font-bold">SyncBoarder</span>
@@ -20,7 +21,7 @@ export const MainNavigation = () => {
               <Link
                 href="/boards"
                 className={cn(
-                  "font-medium text-neutral-500 hover:text-neutral-900 transition-colors",
+                  "font-medium text-neutral-500 hover:text-neutral-900 transition-colors text-sm",
                   pathname === "/boards" && "text-neutral-900"
                 )}>
                 Boards
@@ -28,7 +29,7 @@ export const MainNavigation = () => {
               <Link
                 href="/chats"
                 className={cn(
-                  "font-medium text-neutral-500 hover:text-neutral-900 transition-colors",
+                  "font-medium text-neutral-500 hover:text-neutral-900 transition-colors text-sm",
                   pathname === "/chats" && "text-neutral-900"
                 )}>
                 Chats
@@ -43,6 +44,7 @@ export const MainNavigation = () => {
             </Link>
           </Button>
         )}
+        {pathname !== "/" && <UserButton />}
       </div>
     </nav>
   );

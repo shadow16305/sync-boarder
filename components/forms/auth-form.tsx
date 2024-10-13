@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 
-import { set, z } from "zod";
+import { z } from "zod";
 import { signInSchema, signUpSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 

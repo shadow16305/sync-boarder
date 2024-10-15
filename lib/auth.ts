@@ -57,10 +57,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   debug: process.env.NODE_ENV === "development",
   secret: process.env.AUTH_SECRET,
-  callbacks: {
-    authorized: async ({ auth }) => {
-      // Logged in users are authenticated, otherwise redirect to login page
-      return !!auth;
-    },
-  },
+  // callbacks: {
+  //   authorized: async ({ auth }) => {
+  //     return !!auth;
+  //   },
+  // },
 });

@@ -5,8 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { LogIn } from "lucide-react";
-import Image from "next/image";
 import { UserButton } from "./user-button";
+import { WorkspaceCombobox } from "../workspace-combobox";
 
 export const MainNavigation = () => {
   const pathname = usePathname();
@@ -44,7 +44,12 @@ export const MainNavigation = () => {
             </Link>
           </Button>
         )}
-        {pathname !== "/" && <UserButton />}
+        {pathname !== "/" && (
+          <div className="flex items-center gap-x-4">
+            <WorkspaceCombobox />
+            <UserButton />
+          </div>
+        )}
       </div>
     </nav>
   );

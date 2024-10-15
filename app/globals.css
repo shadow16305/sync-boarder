@@ -17,3 +17,7 @@ body {
     --radius: 0.5rem;
   }
 }
+
+iframe {
+  pointer-events: auto;
+}

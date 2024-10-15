@@ -1,3 +1,3 @@
 export default function BoardsPage() {
-  return <main>Boards</main>;
+  return <main className="w-10/12 mx-auto">Boards</main>;
 }

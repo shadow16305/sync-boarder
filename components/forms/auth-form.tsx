@@ -18,10 +18,9 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
 
-import axios from "axios";
 import toast from "react-hot-toast";
 
-type AuthFormValues = { email: string; password: string; username: string } | { email: string; password: string };
+type AuthFormValues = { email: string; password: string; name: string } | { email: string; password: string };
 
 export const AuthForm = () => {
   const [variant, setVariant] = useState("LOGIN");
@@ -46,7 +45,7 @@ export const AuthForm = () => {
 
   const getDefaultValues = (variant: string) => {
     if (variant === "REGISTER") {
-      return { email: "", password: "", username: "" };
+      return { email: "", password: "", name: "" };
     } else {
       return { email: "", password: "" };
     }
@@ -59,9 +58,14 @@ export const AuthForm = () => {
 
   const onSubmit = async (data: z.infer<ReturnType<typeof getSchema>>) => {
     if (variant === "REGISTER") {
-      axios
-        .post("/api/register", data)
-        .then(() => signIn("credentials", data))
+      fetch("/api/register", {
+        method: "POST",
+        body: JSON.stringify(data),
+      })
+        .then(() => {
+          signIn("credentials", data);
+          router.push("/boards");
+        })
         .catch((error) => {
           console.error(error);
           toast.error("Something went wrong!");
@@ -92,7 +96,6 @@ export const AuthForm = () => {
 
     signIn(action, { callbackUrl: "/boards" })
       .then((callback) => {
-        console.log("signIn callback:", callback);
         if (callback?.error) {
           toast.error("Invalid credentials");
         }
@@ -100,7 +103,9 @@ export const AuthForm = () => {
           toast.success("Signed up!");
         }
       })
-      .finally(() => setIsLoading(false));
+      .finally(async () => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -114,7 +119,7 @@ export const AuthForm = () => {
             {variant === "REGISTER" && (
               <FormField
                 control={form.control}
-                name="username"
+                name="name"
                 disabled={isLoading}
                 render={({ field }) => (
                   <FormItem>

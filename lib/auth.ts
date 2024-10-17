@@ -34,7 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
 
         if (!user || !user?.hashedPassword) {
-          throw new Error("Invalid Credentials");
+          throw new Error("Invalid Credentials two");
         }
 
         const isValid = await bcrypt.compare(credentials.password, user.hashedPassword);
@@ -57,9 +57,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   debug: process.env.NODE_ENV === "development",
   secret: process.env.AUTH_SECRET,
-  // callbacks: {
-  //   authorized: async ({ auth }) => {
-  //     return !!auth;
-  //   },
-  // },
 });

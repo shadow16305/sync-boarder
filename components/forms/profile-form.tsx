@@ -5,16 +5,14 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "../ui/input";
 import { User } from "@prisma/client";
 import toast from "react-hot-toast";
-import { useState } from "react";
 import { Button } from "../ui/button";
 import { CldUploadButton } from "next-cloudinary";
 import { Textarea } from "../ui/textarea";
 import Image from "next/image";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import updateSettings from "@/utils/actions/update-settings";
 
 export const ProfileForm = ({ user }: { user: User }) => {
-  const [isLoading, setIsLoading] = useState(false);
-
   const form = useForm<FieldValues>({
     defaultValues: {
       name: user.name,
@@ -25,29 +23,19 @@ export const ProfileForm = ({ user }: { user: User }) => {
 
   const queryClient = useQueryClient();
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setIsLoading(true);
+  const mutation = useMutation({
+    mutationFn: updateSettings,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      toast.success("Profile updated!");
+    },
+    onError: () => {
+      toast.error("Failed to update profile :(");
+    },
+  });
 
-    await fetch("/api/settings", {
-      method: "PATCH",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then(() => {
-        toast.success("Profile updated!");
-        form.setValue("name", data.name);
-        form.setValue("bio", data.bio);
-      })
-      .catch((error) => {
-        toast.error("Failed to update profile :(");
-        console.error("Error updating profile: ", error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-        queryClient.invalidateQueries({ queryKey: ["user"] });
-      });
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    mutation.mutate({ image: data.image, name: data.name, bio: data.bio });
   };
 
   const imageSrc = form.watch("image");
@@ -79,7 +67,7 @@ export const ProfileForm = ({ user }: { user: User }) => {
         <FormField
           control={form.control}
           name="name"
-          disabled={isLoading}
+          disabled={mutation.isPending}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
@@ -93,7 +81,7 @@ export const ProfileForm = ({ user }: { user: User }) => {
         <FormField
           control={form.control}
           name="bio"
-          disabled={isLoading}
+          disabled={mutation.isPending}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Bio</FormLabel>
@@ -104,7 +92,7 @@ export const ProfileForm = ({ user }: { user: User }) => {
             </FormItem>
           )}
         />
-        <Button type="submit" variant="info" disabled={isLoading}>
+        <Button type="submit" variant="info" disabled={mutation.isPending}>
           Save
         </Button>
       </form>

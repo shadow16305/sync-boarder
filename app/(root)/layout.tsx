@@ -4,6 +4,7 @@ import "../globals.css";
 import { MainNavigation } from "@/components/main-navigation/main-navigation";
 import ToasterContext from "@/context/toaster-context";
 import ReactQueryProvider from "@/lib/react-query-provider";
+import { WorkspaceContextProvider } from "@/context/workspace-context";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -25,9 +26,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} font-sans antialiased`}>
         <ReactQueryProvider>
-          <ToasterContext />
-          <MainNavigation />
-          {children}
+          <WorkspaceContextProvider>
+            <ToasterContext />
+            <MainNavigation />
+            {children}
+          </WorkspaceContextProvider>
         </ReactQueryProvider>
       </body>
     </html>

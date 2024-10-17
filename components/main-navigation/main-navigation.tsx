@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { LogIn } from "lucide-react";
 import { UserButton } from "./user-button";
-import { WorkspaceCombobox } from "../workspace-combobox";
+import { WorkspaceDropdown } from "../workspace-dropdown";
 
 export const MainNavigation = () => {
   const pathname = usePathname();
@@ -46,7 +46,7 @@ export const MainNavigation = () => {
         )}
         {pathname !== "/" && (
           <div className="flex items-center gap-x-4">
-            <WorkspaceCombobox />
+            <WorkspaceDropdown />
             <UserButton />
           </div>
         )}

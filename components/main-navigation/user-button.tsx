@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import getCurrentUser from "@/lib/actions/get-current-user";
+import getCurrentUser from "@/utils/data/get-current-user";
 import Image from "next/image";
 import { useState } from "react";
 import { SettingsModal } from "../modals/settings-modal";

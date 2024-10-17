@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import getCurrentUser from "@/lib/actions/get-current-user";
+import getCurrentUser from "@/utils/data/get-current-user";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 

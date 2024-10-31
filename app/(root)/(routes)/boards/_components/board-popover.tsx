@@ -5,7 +5,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import createBoard from "@/utils/actions/create-board";
+import { createBoard } from "@/utils/actions/board";
 import { boardBackgrounds } from "@/utils/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -23,6 +23,7 @@ export const BoardPopover = ({ workspaceId }: BoardPopoverProps) => {
   const form = useForm({
     defaultValues: {
       name: "",
+      image: "",
     },
   });
 
@@ -43,56 +44,58 @@ export const BoardPopover = ({ workspaceId }: BoardPopoverProps) => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    mutation.mutate({ name: data.name, workspaceId, backgroundColor });
+    mutation.mutate({ name: data.name, workspaceId, backgroundColor, backgroundImage: "" });
   };
 
   return (
-    <Popover>
-      <PopoverTrigger className="bg-neutral-100 text-neutral-900 font-semibold shadow-sm hover:bg-neutral-100/80 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-800/80 py-10 w-[23%] rounded-md">
-        Create new board
-      </PopoverTrigger>
-      <PopoverContent side="right">
-        <span className="text-sm font-medium">Background</span>
-        <div className="flex flex-wrap gap-1 mt-1">
-          {boardBackgrounds.map((bg) => (
-            <Button
-              key={bg.name}
-              variant="ghost"
-              onClick={() => setBackgroundColor(bg.color)}
-              className={cn(
-                "w-[30%] rounded-md h-16 cursor-pointer",
-                bg.color,
-                `hover:${bg.color}`,
-                backgroundColor === bg.color && "border-2 border-black"
-              )}
-            />
-          ))}
-          <div className="w-[61%] rounded-md h-16 cursor-pointer bg-neutral-100 hover:bg-neutral-100/90 flex items-center justify-center">
-            Custom image +
+    <>
+      <Popover>
+        <PopoverTrigger className="bg-neutral-100 text-neutral-900 font-semibold shadow-sm hover:bg-neutral-100/80 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-800/80 py-10 w-[23%] rounded-md">
+          Create new board
+        </PopoverTrigger>
+        <PopoverContent side="right">
+          <span className="text-sm font-medium">Background</span>
+          <div className="flex flex-wrap gap-1 mt-1">
+            {boardBackgrounds.map((bg) => (
+              <Button
+                key={bg.name}
+                variant="ghost"
+                onClick={() => setBackgroundColor(bg.color)}
+                className={cn(
+                  "w-[30%] rounded-md h-16 cursor-pointer",
+                  bg.color,
+                  `hover:${bg.color}`,
+                  backgroundColor === bg.color && "border-2 border-black"
+                )}
+              />
+            ))}
           </div>
-        </div>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-1">
-            <FormField
-              control={form.control}
-              name="name"
-              disabled={mutation.isPending}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="My new board" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" disabled={mutation.isPending}>
-              Submit
-            </Button>
-          </form>
-        </Form>
-      </PopoverContent>
-    </Popover>
+          <span className="text-xs text-neutral-500">
+            A custom background can be uploaded after creating the board.
+          </span>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-1">
+              <FormField
+                control={form.control}
+                name="name"
+                disabled={mutation.isPending}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="My new board" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" disabled={mutation.isPending}>
+                Submit
+              </Button>
+            </form>
+          </Form>
+        </PopoverContent>
+      </Popover>
+    </>
   );
 };

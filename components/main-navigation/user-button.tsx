@@ -47,16 +47,14 @@ export const UserButton = () => {
           <DropdownMenuItem onClick={() => setConfirmationModalOpen(true)}>Log out</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {settingsModalOpen && (
-        <SettingsModal open={settingsModalOpen} onClose={() => setSettingsModalOpen(false)} user={user!} />
-      )}
-      {confirmationModalOpen && (
-        <ConfirmationModal
-          open={confirmationModalOpen}
-          onClose={() => setConfirmationModalOpen(false)}
-          onClick={() => signOut({ callbackUrl: "http://localhost:3000" })}
-        />
-      )}
+      <SettingsModal open={settingsModalOpen} onClose={() => setSettingsModalOpen(false)} user={user!} />
+      <ConfirmationModal
+        open={confirmationModalOpen}
+        onClose={() => setConfirmationModalOpen(false)}
+        onClick={() => signOut({ callbackUrl: "http://localhost:3000" })}
+        description="log out"
+        buttonTxt="Log out"
+      />
     </>
   );
 };

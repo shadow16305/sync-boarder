@@ -1,6 +1,13 @@
 "use client";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "../ui/input";
 import { User } from "@prisma/client";
@@ -50,7 +57,14 @@ export const ProfileForm = ({ user }: { user: User }) => {
     <Form {...form}>
       <div className="flex items-center gap-x-4 py-4">
         <div className="relative size-20 rounded-full">
-          {imageSrc && <Image src={imageSrc} alt="User image" fill className="rounded-full object-cover" />}
+          {imageSrc && (
+            <Image
+              src={imageSrc}
+              alt="User image"
+              fill
+              className="rounded-full object-cover"
+            />
+          )}
         </div>
         <Button variant="secondary" size="sm" asChild>
           <CldUploadButton
@@ -58,7 +72,7 @@ export const ProfileForm = ({ user }: { user: User }) => {
             options={{ maxFiles: 1 }}
             onSuccess={handleImageUpload}
             className="z-[60]"
-            appendTo={document.body}>
+          >
             Change Image
           </CldUploadButton>
         </Button>

@@ -55,9 +55,7 @@ export const WorkspaceDropdown = () => {
           <DropdownMenuItem onClick={() => setWorkspaceModalOpen(true)}>Create workspace +</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {workspaceModalOpen && (
-        <CreateWorkspaceModal open={workspaceModalOpen} onClose={() => setWorkspaceModalOpen(false)} />
-      )}
+      <CreateWorkspaceModal open={workspaceModalOpen} onClose={() => setWorkspaceModalOpen(false)} />
     </>
   );
 };

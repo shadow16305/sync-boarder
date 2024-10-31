@@ -15,9 +15,15 @@ export const BoardGrid = ({ boards, workspaceId }: BoardGridProps) => {
         <Link
           href={`/boards/${board.id}`}
           className={cn(
-            "w-[23%] p-4 pb-16 rounded-md hover:bg-opacity-90 transition text-white text-xl font-semibold",
-            board.backgroundColor
-          )}>
+            "w-[23%] p-4 pb-16 rounded-md hover:bg-opacity-90 transition text-white text-xl font-semibold bg-cover bg-no-repeat",
+            (!board?.backgroundImage || board.backgroundImage.trim() === "") && board.backgroundColor
+          )}
+          style={{
+            backgroundImage:
+              board?.backgroundImage && board.backgroundImage.trim() !== ""
+                ? `url(${board.backgroundImage})`
+                : undefined,
+          }}>
           {board.name}
         </Link>
       ))}

@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} font-sans antialiased`}>
+      <body className={`${geistSans.variable} font-sans antialiased overflow-x-hidden`}>
         <ReactQueryProvider>
           <WorkspaceContextProvider>
             <ToasterContext />

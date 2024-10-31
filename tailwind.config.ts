@@ -55,6 +55,8 @@ const config: Config = {
     "bg-pink-500",
     "bg-teal-500",
     "bg-black",
+    "bg-indigo-500",
+    "bg-green-500",
   ],
 };
 export default config;

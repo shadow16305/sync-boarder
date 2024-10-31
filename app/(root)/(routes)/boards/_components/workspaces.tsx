@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 export const Workspaces = ({ workspaces }: { workspaces: WorkspaceWithBoards[] }) => {
   const [workspaceModalOpen, setWorkspaceModalOpen] = useState(false);
   const [isBoards, setIsBoards] = useState(true);
+
   const workspaceCtx = useContext(WorkspaceContext);
 
   const boards = workspaces.find((workspace) => workspace.name === workspaceCtx.currentWorkspace)?.boards;

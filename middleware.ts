@@ -12,7 +12,7 @@ export default auth((req) => {
   const isPublicRoute = nextUrl.pathname === "/";
 
   if (isApiAuthRoute) {
-    return;
+    return; 
   }
 
   if (isAuthRoute) {
@@ -26,8 +26,9 @@ export default auth((req) => {
     return Response.redirect(new URL("/", nextUrl));
   }
 
-  return;
+  return; 
 });
+
 
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+s|_next).*)", "/", "/(api|trpc)(.*)"],

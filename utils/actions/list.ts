@@ -16,8 +16,6 @@ export const createList = async ({name, boardId, order}: CreateListProps) => {
             order,
           },
         });
-        
-        console.log('prisma.list.create result:', newList);
       } catch (error) {
         console.error("Error creating board: ", error);
       }

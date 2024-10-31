@@ -14,6 +14,7 @@ import { listSchema } from "@/lib/zod";
 import { createList } from "@/utils/actions/list";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -55,16 +56,20 @@ export const CreateList = ({ boardId }: { boardId: string }) => {
 
   return !toggled ? (
     <Button
-      variant="outline"
-      className="px-16"
+      variant="secondary"
+      size="lg"
+      className="flex items-center justify-between w-[272px] bg-white/80"
       onClick={() => setToggled(true)}
     >
-      Add a list +
+      Add a list <Plus size={16} />
     </Button>
   ) : (
-    <div className="bg-white rounded-lg px-4 py-2">
+    <div className="bg-white rounded-lg px-4 py-2 h-fit">
       <Form {...form}>
-        <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          className="space-y-3 w-[272px]"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
           <FormField
             control={form.control}
             name="name"

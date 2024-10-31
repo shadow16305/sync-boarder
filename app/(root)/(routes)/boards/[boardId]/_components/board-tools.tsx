@@ -56,9 +56,9 @@ export const BoardTools = ({ board }: { board: Board }) => {
 
   return (
     <>
-      <div className="w-full py-1 bg-white border-t overflow-hidden">
+      <div className="w-full py-1 bg-black/40 backdrop-blur-md border-t">
         <div className="w-10/12 mx-auto flex items-center justify-between">
-          <h1 className="text-lg font-semibold">{board.name}</h1>
+          <h1 className="text-lg font-semibold text-white">{board.name}</h1>
           <BoardDropdown
             handleImageUpload={handleImageUpload}
             handleBackgroundColorChange={handleBackgroundColorChange}

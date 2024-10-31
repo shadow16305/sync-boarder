@@ -34,8 +34,8 @@ export const BoardDropdown = ({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon">
-            <Ellipsis size={16} />
+          <Button variant="ghost" size="icon" className="hover:bg-white/20">
+            <Ellipsis size={16} className="text-white" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>

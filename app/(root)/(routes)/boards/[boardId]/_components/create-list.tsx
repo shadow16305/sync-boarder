@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { listSchema } from "@/lib/zod";
+import { ListWithCards } from "@/types/list";
 import { createList } from "@/utils/actions/list";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -25,16 +26,18 @@ type formValues = {
   name: string;
 };
 
-export const CreateList = ({ boardId }: { boardId: string }) => {
-  const [toggled, setToggled] = useState(false);
+interface CreateListProps {
+  boardId: string;
+  onCreateList: (newList: ListWithCards) => void;
+}
 
-  const router = useRouter();
+export const CreateList = ({ boardId, onCreateList }: CreateListProps) => {
+  const [toggled, setToggled] = useState(false);
 
   const mutation = useMutation({
     mutationFn: createList,
     onSuccess: () => {
       toast.success("List created!");
-      router.refresh();
       setToggled(false);
     },
     onError: () => {
@@ -50,7 +53,17 @@ export const CreateList = ({ boardId }: { boardId: string }) => {
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof listSchema>> = async (data) => {
-    mutation.mutate({ name: data.name, boardId, order: 1 });
+    const newList = await mutation.mutateAsync({
+      name: data.name,
+      boardId,
+      order: 1,
+    });
+    console.log("newList:", newList);
+    if (newList) {
+      onCreateList({ ...newList, cards: [] });
+    } else {
+      console.error("Error creating list: newList is null or undefined");
+    }
     form.reset();
   };
 

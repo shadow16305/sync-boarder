@@ -5,30 +5,28 @@ const authRoutes = ["/sign-in", "/sign-up"];
 
 export default auth((req) => {
   const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
+  const isLoggedIn = !!req.auth?.user;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-  const isPublicRoute = nextUrl.pathname === "/";
+  const isRootRoute = nextUrl.pathname === "/";
 
   if (isApiAuthRoute) {
     return; 
   }
 
-  if (isAuthRoute) {
-    if (isLoggedIn) {
+  if (isLoggedIn) {
+    if (isRootRoute || isAuthRoute) {
       return Response.redirect(new URL("/boards", nextUrl));
     }
-    return;
-  }
-
-  if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/", nextUrl));
+  } else {
+    if (!isRootRoute && !isAuthRoute) {
+      return Response.redirect(new URL("/", nextUrl));
+    }
   }
 
   return; 
 });
-
 
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+s|_next).*)", "/", "/(api|trpc)(.*)"],

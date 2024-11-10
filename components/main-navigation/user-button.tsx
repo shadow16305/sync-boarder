@@ -30,24 +30,39 @@ export const UserButton = () => {
 
   const user = query.data;
 
+  // console.log(user);
+
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className="focus:outline-none">
           {user?.image && (
             <div className="relative size-10">
-              <Image src={user?.image} alt="User image" fill className="rounded-full object-cover" />
+              <Image
+                src={user?.image}
+                alt="User image"
+                fill
+                className="rounded-full object-cover"
+              />
             </div>
           )}
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setSettingsModalOpen(true)}>Settings</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setConfirmationModalOpen(true)}>Log out</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setSettingsModalOpen(true)}>
+            Settings
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setConfirmationModalOpen(true)}>
+            Log out
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <SettingsModal open={settingsModalOpen} onClose={() => setSettingsModalOpen(false)} user={user!} />
+      <SettingsModal
+        open={settingsModalOpen}
+        onClose={() => setSettingsModalOpen(false)}
+        user={user!}
+      />
       <ConfirmationModal
         open={confirmationModalOpen}
         onClose={() => setConfirmationModalOpen(false)}

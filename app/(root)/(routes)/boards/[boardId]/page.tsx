@@ -1,8 +1,7 @@
 import { cn } from "@/lib/utils";
 import { getBoard, getLists } from "@/utils/data/board";
 import { BoardTools } from "./_components/board-tools";
-import { BoardList } from "./_components/board-list";
-import { CreateList } from "./_components/create-list";
+import { ListContainer } from "./_components/list-container";
 
 export default async function BoardPage({
   params,
@@ -28,11 +27,7 @@ export default async function BoardPage({
       }}
     >
       <BoardTools board={board!} />
-      <div className="mt-4 flex gap-x-4 w-10/12 mx-auto overflow-auto h-full">
-        {lists &&
-          lists.map((list) => <BoardList key={list.id} name={list.name} />)}
-        <CreateList boardId={board!.id} />
-      </div>
+      <ListContainer lists={lists!} board={board!} />
       <span className="bg-white rounded-md px-6 py-2 absolute left-1/2 bottom-10 -translate-x-1/2">
         Shift + Scroll to scroll left & right
       </span>

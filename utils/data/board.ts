@@ -24,6 +24,9 @@ export const getLists = async (boardId: string) => {
       where: {
         boardId,
       },
+      include: {
+        cards: true,
+      }
     });
 
     if (!lists) return null;

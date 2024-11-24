@@ -1,7 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import createWorkspace from "@/utils/actions/workspace";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -46,7 +53,7 @@ export const CreateWorkspaceForm = ({ onClose }: { onClose: () => void }) => {
           disabled={mutation.isPending}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>name</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input placeholder="My Workspace" {...field} />
               </FormControl>

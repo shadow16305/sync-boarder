@@ -16,28 +16,28 @@ import { Card as CardType } from "@prisma/client";
 import { ListWithCards } from "@/types/list";
 
 interface BoardListProps {
-  name: string;
   boardId: string;
-  listId: string;
+  list: ListWithCards;
   index: number;
   cards: CardType[];
   onDeleteList: (listId: string) => void;
   onCopyList: (copiedList: ListWithCards) => void;
+  onAddCardToList: (listId: string, card: CardType) => void;
 }
 
 export const BoardList = ({
-  name,
   boardId,
-  listId,
+  list,
   index,
   cards,
   onDeleteList,
   onCopyList,
+  onAddCardToList,
 }: BoardListProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <Draggable draggableId={listId} index={index}>
+    <Draggable draggableId={list.id} index={index}>
       {(provided) => (
         <Card
           {...provided.draggableProps}
@@ -48,16 +48,16 @@ export const BoardList = ({
             {...provided.dragHandleProps}
             className="py-2 flex flex-row items-center justify-between min-w-[272px]"
           >
-            <CardTitle className="font-medium text-base">{name}</CardTitle>
+            <CardTitle className="font-medium text-base">{list.name}</CardTitle>
             <ListOptions
-              name={name}
+              name={list.name}
               boardId={boardId}
-              listId={listId}
+              listId={list.id}
               onDeleteList={onDeleteList}
               onCopyList={onCopyList}
             />
           </CardHeader>
-          <Droppable droppableId={listId} type="card">
+          <Droppable droppableId={list.id} type="card">
             {(provided) => (
               <CardContent
                 ref={provided.innerRef}
@@ -65,7 +65,12 @@ export const BoardList = ({
                 className="space-y-2 px-2 pb-2"
               >
                 {cards?.map((card, index) => (
-                  <CardItem key={card.id} card={card} index={index} />
+                  <CardItem
+                    key={card.id}
+                    card={card}
+                    index={index}
+                    list={list}
+                  />
                 ))}
                 {provided.placeholder}
               </CardContent>
@@ -75,7 +80,8 @@ export const BoardList = ({
             <AddCard
               isEditing={isEditing}
               setIsEditing={setIsEditing}
-              listId={listId}
+              listId={list.id}
+              onAddCardToList={onAddCardToList}
             />
           </CardFooter>
         </Card>

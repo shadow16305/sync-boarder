@@ -35,3 +35,9 @@ export const cardSchema = object({
     .min(1, "Name is required")
     .min(2, "Name must be more than 2 characters"),
 });
+
+export const cardDescriptionSchema = object({
+  description: string({ required_error: "Description is required" })
+    .min(1, "Description is required")
+    .min(2, "Description must be more than 2 characters"),
+});

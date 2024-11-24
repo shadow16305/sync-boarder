@@ -16,6 +16,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Card as CardType } from "@prisma/client";
 import toast from "react-hot-toast";
 import { z } from "zod";
 
@@ -23,17 +24,28 @@ interface AddCardProps {
   isEditing: boolean;
   setIsEditing: (value: boolean) => void;
   listId: string;
+  onAddCardToList: (listId: string, card: CardType) => void;
 }
 
-export const AddCard = ({ isEditing, setIsEditing, listId }: AddCardProps) => {
+export const AddCard = ({
+  isEditing,
+  setIsEditing,
+  listId,
+  onAddCardToList,
+}: AddCardProps) => {
   const router = useRouter();
 
   const queryClient = useQueryClient();
 
   const createCardMutation = useMutation({
     mutationFn: createCard,
-    onSuccess: () => {
+    onSuccess: (newCard) => {
+      if (!newCard) {
+        toast.error("Failed to create card :(");
+        return;
+      }
       queryClient.invalidateQueries({ queryKey: ["cards"] });
+      onAddCardToList(listId, newCard);
       toast.success("Card created successfully!");
       router.refresh();
     },

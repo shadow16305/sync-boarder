@@ -1,6 +1,6 @@
 "use client";
 
-import { Board } from "@prisma/client";
+import { Board, Card } from "@prisma/client";
 import { BoardList } from "./board-list";
 import { CreateList } from "./create-list";
 
@@ -135,6 +135,17 @@ export const ListContainer = ({ lists, board }: ListContainerProps) => {
     setLocalLists((prevLists) => [...prevLists, copiedList]);
   };
 
+  const handleAddCardToList = (listId: string, card: Card) => {
+    setLocalLists((prevLists) =>
+      prevLists.map((list) => {
+        if (list.id === listId) {
+          return { ...list, cards: [...list.cards, card] };
+        }
+        return list;
+      })
+    );
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="lists" type="list" direction="horizontal">
@@ -147,13 +158,13 @@ export const ListContainer = ({ lists, board }: ListContainerProps) => {
             {localLists.map((list, index) => (
               <BoardList
                 key={list.id}
-                name={list.name}
                 boardId={board.id}
-                listId={list.id}
+                list={list}
                 index={index}
                 cards={list.cards}
                 onDeleteList={handleDeleteList}
                 onCopyList={handleCopyList}
+                onAddCardToList={handleAddCardToList}
               />
             ))}
             {provided.placeholder}

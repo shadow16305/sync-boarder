@@ -84,13 +84,15 @@ export const createCard = async ({ name, listId, order }: CreateCardProps) => {
     const currentUser = await getCurrentUser();
     if (!currentUser?.id) return null;
 
-    await prisma.card.create({
+    const card = await prisma.card.create({
       data: {
         name,
         listId,
         order,
       },
     });
+
+    return card;
   } catch (error) {
     console.error("Error creating board: ", error);
   }
